@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import Iso from 'iso';
-import alt from 'dgx-alt-center';
+import alt from './src/app/alt.js';
 
 import appConfig from './appConfig.js';
 import analytics from './analytics.js';

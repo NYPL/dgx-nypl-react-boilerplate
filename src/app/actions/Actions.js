@@ -1,5 +1,5 @@
 // ACTIONS
-import alt from 'dgx-alt-center';
+import alt from '../alt.js';
 
 class Actions {
   updateAngularApps(data) {

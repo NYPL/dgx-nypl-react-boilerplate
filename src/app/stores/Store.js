@@ -1,5 +1,5 @@
 import BookActions from '../actions/Actions.js';
-import alt from 'dgx-alt-center';
+import alt from '../alt.js';
 
 class Store {
   constructor() {
