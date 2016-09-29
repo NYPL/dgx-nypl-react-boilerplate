@@ -9,17 +9,17 @@ class Store {
     });
 
     this.on('init', () => {
-      this._angularApps = [];
-      this._reactApps = [];
+      this.angularApps = [];
+      this.reactApps = [];
     });
   }
 
   updateAngularApps(data) {
-    this._angularApps = data;
+    this.angularApps = data;
   }
 
   updateReactApps(data) {
-    this._reactApps = data;
+    this.reactApps = data;
   }
 }
 

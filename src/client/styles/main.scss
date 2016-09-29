@@ -1,9 +1,15 @@
 /*
 Import style rules from NYPL React module components
 */
-@import "~dgx-header-component/dist/styles/main";
-@import '~dgx-react-footer/dist/styles/styles';
+@import "~@nypl/dgx-header-component/dist/styles/main";
+@import '~@nypl/dgx-react-footer/dist/styles/styles';
 
 #app {
   margin: 0;
+}
+
+#mainContent {
+  margin: 0 auto;
+  width: 1024px;
+  min-height: 4010px;
 }

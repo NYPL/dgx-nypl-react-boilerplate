@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Header } from 'dgx-header-component';
-import Footer from 'dgx-react-footer';
+import { Header, navConfig } from '@nypl/dgx-header-component';
+import Footer from '@nypl/dgx-react-footer';
 
 import Store from '../../stores/Store.js';
 
@@ -10,33 +10,44 @@ class App extends React.Component {
     super(props);
 
     this.state = Store.getState();
-    this._getList = this._getList.bind(this);
+    this.getList = this.getList.bind(this);
   }
 
   // Helper functions below the render() function:
-  _getList(appsArray) {
-    return appsArray.map((appName, index) => {
-      return (<li key={index}>{appName}</li>);
-    });
+  getList(appsArray) {
+    return appsArray.map((app, index) => (
+      <li key={index}><a href={app.link}>{app.id}</a></li>
+    ));
   }
 
   render() {
-    const angularApps = this._getList(this.state._angularApps);
-    const reactApps = this._getList(this.state._reactApps);
+    const angularApps = this.getList(this.state.angularApps);
+    const reactApps = this.getList(this.state.reactApps);
 
     return (
       <div className="app-wrapper">
-        <Header />
+        <Header
+          skipNav={{ target: 'mainContent' }}
+          navData={navConfig.current}
+        />
 
-        <h2>NYPL Rocks!</h2>
-        <p>Our Angular Apps</p>
-        <ul>
-          {angularApps}
-        </ul>
-        <p>Our React Apps</p>
-        <ul>
-          {reactApps}
-        </ul>
+        <div id="mainContent">
+          <h2>NYPL Rocks!</h2>
+          <p>
+            NYPL React Boilerplate<br />
+            Quickly start prototyping projcets in React using this boilerplate. It contains
+            React v0.14, Alt, Iso, NYPL Header and Footer NPM modules, and Webpack hot reload
+            dev server.
+          </p>
+          <p>Our Angular Apps</p>
+          <ul>
+            {angularApps}
+          </ul>
+          <p>Our React Apps</p>
+          <ul>
+            {reactApps}
+          </ul>
+        </div>
 
         <Footer />
       </div>
