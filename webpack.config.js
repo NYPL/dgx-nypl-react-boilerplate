@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const cleanBuild = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const pkg = require('./package.json');
 
 // References the applications root path
 const ROOT_PATH = path.resolve(__dirname);
@@ -71,7 +70,7 @@ if (ENV === 'development') {
         {
           test: /\.jsx?$/,
           exclude: /(node_modules|bower_components)/,
-          loaders: ['react-hot', 'babel'],
+          loader: 'babel',
         },
         {
           test: /\.scss?$/,
@@ -117,6 +116,11 @@ if (ENV === 'production') {
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false,
+        },
+      }),
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify('production'),
         },
       }),
     ],
