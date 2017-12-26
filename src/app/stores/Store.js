@@ -1,25 +1,25 @@
-import BookActions from '../actions/Actions.js';
+import Actions from '../actions/Actions.js';
 import alt from '../alt.js';
 
 class Store {
   constructor() {
     this.bindListeners({
-      updateAngularApps: BookActions.UPDATE_ANGULAR_APPS,
-      updateReactApps: BookActions.UPDATE_REACT_APPS,
+      updateAngularApps: Actions.UPDATE_ANGULAR_APPS,
+      updateReactApps: Actions.UPDATE_REACT_APPS,
     });
 
-    this.on('init', () => {
-      this.angularApps = [];
-      this.reactApps = [];
-    });
+    this.state = {
+      angularApps: [],
+      reactApps: [],
+    };
   }
 
-  updateAngularApps(data) {
-    this.angularApps = data;
+  updateAngularApps(angularApps) {
+    this.setState({ angularApps });
   }
 
-  updateReactApps(data) {
-    this.reactApps = data;
+  updateReactApps(reactApps) {
+    this.setState({ reactApps });
   }
 }
 
