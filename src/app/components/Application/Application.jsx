@@ -32,11 +32,15 @@ class App extends React.Component {
         />
 
         <div id="mainContent">
+          {
+            // Replace the following with your code. The #mainContent ID is needed for an
+            // accessible skip nav from the Header component.
+          }
           <h2>NYPL Rocks!</h2>
           <p>
             NYPL React Boilerplate<br />
             Quickly start prototyping projcets in React using this boilerplate. It contains
-            React v0.14, Alt, Iso, NYPL Header and Footer NPM modules, and Webpack hot reload
+            React v0.15, Alt, Iso, NYPL Header and Footer NPM modules, and Webpack hot reload
             dev server.
           </p>
           <p>Our Angular Apps</p>

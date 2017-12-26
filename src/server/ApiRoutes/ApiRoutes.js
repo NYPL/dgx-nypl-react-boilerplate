@@ -1,28 +1,33 @@
 import express from 'express';
 import axios from 'axios';
 
-import appConfig from '../../../appConfig.js';
-
-// Syntax that both ES6 and Babel 6 support
-const { api } = appConfig;
-
 const router = express.Router();
-const appEnvironment = process.env.APP_ENV || 'production';
-const apiRoot = api.root[appEnvironment];
-
-function createOptions(apiValue) {
-  return {
-    endpoint: `${apiRoot}${apiValue.endpoint}`,
-    includes: apiValue.includes,
-    filters: apiValue.filters,
-  };
-}
 
 function fetchApiData(url) {
   return axios.get(url);
 }
 
 function MainApp(req, res, next) {
+  // Example of how to use the fetchApiData function:
+  // const apiUrl = '';
+  // fetchApiData(url)
+  //   .then(data => {
+  //     // Do something with the data
+  //     res.locals.data = {
+  //       Store: data,
+  //     };
+  //
+  //     next();
+  //   })
+  //   .catch(error => {
+  //     // Do something with the error
+  //     res.locals.data = {
+  //       Store: {},
+  //     };
+  //
+  //     next();
+  //   });
+
   res.locals.data = {
     Store: {
       angularApps: [
@@ -41,7 +46,7 @@ function MainApp(req, res, next) {
         { id: 'New Arrivals', link: 'https://nypl.org/newarrivals' },
         { id: 'Search Beta', link: 'https://nypl.org/searchbeta' },
         { id: 'Blogs Beta', link: 'https://nypl.org/blog/beta' },
-      ]
+      ],
     },
   };
 
