@@ -55,6 +55,7 @@
     "webpack-dev-server": "1.10.1"
   },
   "dependencies": {
+    "@nypl/design-toolkit": "^0.1.29",
     "@nypl/dgx-header-component": "2.4.0",
     "@nypl/dgx-react-footer": "0.4.0",
     "alt": "0.18.6",
