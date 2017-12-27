@@ -3,9 +3,8 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const cleanBuild = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const sassPaths = require('@nypl/design-toolkit').includePaths.map((sassPath) =>
-  `includePaths[]=${sassPath}`
-).join('&');
+const sassPaths = require('@nypl/design-toolkit').includePaths
+  .map((sassPath) => sassPath).join('&');
 
 // References the applications root path
 const ROOT_PATH = path.resolve(__dirname);
@@ -18,11 +17,9 @@ const commonSettings = {
   // path.resolve - resolves to an absolute path
   // This is the path and file of our top level
   // React App that is to be rendered.
-  entry: [
-    path.resolve(ROOT_PATH, 'src/client/App.jsx'),
-  ],
+  entry: path.resolve(ROOT_PATH, 'src/client/App.jsx'),
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
   output: {
     // Sets the output path to ROOT_PATH/dist
@@ -53,31 +50,40 @@ const commonSettings = {
 if (ENV === 'development') {
   module.exports = merge(commonSettings, {
     devtool: 'eval',
-    entry: [
-      'webpack-dev-server/client?http://localhost:3000',
-      'webpack/hot/only-dev-server',
-      path.resolve(ROOT_PATH, 'src/client/App.jsx'),
-    ],
+    entry: {
+      app: [
+        'webpack-dev-server/client?http://localhost:3000',
+        'webpack/hot/only-dev-server',
+        path.resolve(ROOT_PATH, 'src/client/App.jsx'),
+      ],
+    },
     output: {
       publicPath: 'http://localhost:3000/',
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
     ],
     resolve: {
-      extensions: ['', '.js', '.jsx', '.scss'],
+      modules: [
+        'node_modules',
+      ],
+      extensions: ['.js', '.jsx', '.scss'],
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.jsx?$/,
           exclude: /(node_modules|bower_components)/,
-          loader: 'babel',
+          loader: 'babel-loader',
         },
         {
           test: /\.scss?$/,
-          loader: `style!css!sass?${sassPaths}`,
+          // loader: `style!css!sass?${sassPaths}`,
+          use: [
+            'style-loader',
+            'css-loader',
+            `sass-loader?includePaths=${sassPaths}`,
+          ],
           include: path.resolve(ROOT_PATH, 'src'),
         },
       ],
@@ -94,24 +100,41 @@ if (ENV === 'development') {
  *
 **/
 if (ENV === 'production') {
+  const loaders = [
+    {
+      loader: 'css-loader',
+      options: {
+        sourceMap: true,
+      },
+    },
+    {
+      loader: 'sass-loader',
+      options: {
+        sourceMap: true,
+        includePaths: sassPaths,
+      },
+    },
+  ];
   module.exports = merge(commonSettings, {
     devtool: 'source-map',
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.jsx?$/,
           exclude: /(node_modules|bower_components)/,
-          loaders: ['babel'],
+          loader: 'babel-loader',
         },
         {
           test: /\.scss$/,
           include: path.resolve(ROOT_PATH, 'src'),
-          loader: ExtractTextPlugin.extract(`css?sourceMap!sass?sourceMap&${sassPaths}`),
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            loader: loaders,
+          }),
         },
       ],
     },
     plugins: [
-      // Minification (Utilized in Production)
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false,
