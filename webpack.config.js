@@ -78,7 +78,6 @@ if (ENV === 'development') {
         },
         {
           test: /\.scss?$/,
-          // loader: `style!css!sass?${sassPaths}`,
           use: [
             'style-loader',
             'css-loader',
