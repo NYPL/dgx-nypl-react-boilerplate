@@ -3,11 +3,11 @@ import alt from '../alt.js';
 
 class Actions {
   updateAngularApps(data) {
-    this.dispatch(data);
+    return data;
   }
 
   updateReactApps(data) {
-    this.dispatch(data);
+    return data;
   }
 }
 

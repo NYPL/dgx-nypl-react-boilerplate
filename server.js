@@ -10,7 +10,7 @@ import Iso from 'iso';
 import alt from './src/app/alt.js';
 
 import appConfig from './appConfig.js';
-import analytics from './analytics.js';
+import { config as analyticsConfig } from 'dgx-react-ga';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import webpackConfig from './webpack.config.js';
@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
     application: iso.render(),
     appTitle: appConfig.appTitle,
     favicon: appConfig.favIconPath,
-    gaCode: analytics.google.code(isProduction),
+    gaCode: analyticsConfig.google.code(isProduction),
     webpackPort: WEBPACK_DEV_PORT,
     appEnv: process.env.APP_ENV,
     apiUrl: res.locals.data.completeApiUrl,
@@ -74,7 +74,7 @@ const server = app.listen(app.get('port'), (error) => {
   console.log(colors.yellow.underline(appConfig.appName));
   console.log(
     colors.green('Express server is listening at'),
-    colors.cyan('localhost:' + app.get('port'))
+    colors.cyan(`localhost: ${app.get('port')}`)
   );
 });
 
