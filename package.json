@@ -1,6 +1,6 @@
 {
   "name": "dgx-nypl-react-boilerplate",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Isomorphic React boilerplate",
   "main": "index.js",
   "scripts": {
