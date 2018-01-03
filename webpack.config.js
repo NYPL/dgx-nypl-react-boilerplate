@@ -3,6 +3,9 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const cleanBuild = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const sassPaths = require('@nypl/design-toolkit').includePaths.map((sassPath) =>
+  `includePaths[]=${sassPath}`
+).join('&');
 
 // References the applications root path
 const ROOT_PATH = path.resolve(__dirname);
@@ -74,7 +77,7 @@ if (ENV === 'development') {
         },
         {
           test: /\.scss?$/,
-          loader: 'style!css!sass',
+          loader: `style!css!sass?${sassPaths}`,
           include: path.resolve(ROOT_PATH, 'src'),
         },
       ],
@@ -103,11 +106,7 @@ if (ENV === 'production') {
         {
           test: /\.scss$/,
           include: path.resolve(ROOT_PATH, 'src'),
-          loader: ExtractTextPlugin.extract(
-            // activate source maps via loader query
-            'css?sourceMap!' +
-            'sass?sourceMap'
-          ),
+          loader: ExtractTextPlugin.extract(`css?sourceMap!sass?sourceMap&${sassPaths}`),
         },
       ],
     },
