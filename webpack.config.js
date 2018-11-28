@@ -4,7 +4,7 @@ const merge = require('webpack-merge');
 const cleanBuild = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const sassPaths = require('@nypl/design-toolkit').includePaths
-  .map((sassPath) => sassPath).join('&');
+  .map(sassPath => sassPath).join('&');
 
 // References the applications root path
 const ROOT_PATH = path.resolve(__dirname);
@@ -17,14 +17,7 @@ const commonSettings = {
   // path.resolve - resolves to an absolute path
   // This is the path and file of our top level
   // React App that is to be rendered.
-<<<<<<< HEAD
-  entry: [
-    'babel-polyfill',
-    path.resolve(ROOT_PATH, 'src/client/App.jsx'),
-  ],
-=======
   entry: path.resolve(ROOT_PATH, 'src/client/App.jsx'),
->>>>>>> development
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -50,21 +43,12 @@ const commonSettings = {
  * Uses the webpack-merge plugin to merge
  * the common app configuration with the
  * additional development specific settings.
- *
 **/
 // Need to configure webpack-dev-server and hot-reload
 // module correctly.
 if (ENV === 'development') {
   module.exports = merge(commonSettings, {
     devtool: 'eval',
-<<<<<<< HEAD
-    entry: [
-      'babel-polyfill',
-      'webpack-dev-server/client?http://localhost:3000',
-      'webpack/hot/only-dev-server',
-      path.resolve(ROOT_PATH, 'src/client/App.jsx'),
-    ],
-=======
     entry: {
       app: [
         'webpack-dev-server/client?http://localhost:3000',
@@ -72,7 +56,6 @@ if (ENV === 'development') {
         path.resolve(ROOT_PATH, 'src/client/App.jsx'),
       ],
     },
->>>>>>> development
     output: {
       publicPath: 'http://localhost:3000/',
     },
