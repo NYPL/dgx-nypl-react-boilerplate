@@ -1,9 +1,11 @@
 /* eslint-env mocha */
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import Application from './../src/app/components/Application/Application.jsx';
+import Adapter from 'enzyme-adapter-react-15';
 
+configure({ adapter: new Adapter() });
 
 describe('Application', () => {
   let component;

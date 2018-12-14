@@ -16,6 +16,7 @@ import webpackConfig from './webpack.config.js';
 
 import Application from './src/app/components/Application/Application.jsx';
 import apiRoutes from './src/server/ApiRoutes/ApiRoutes.js';
+import WebpackDevServer from 'webpack-dev-server';
 
 const ROOT_PATH = __dirname;
 const INDEX_PATH = path.resolve(ROOT_PATH, 'src/client');
@@ -102,7 +103,6 @@ process.on('SIGINT', gracefulShutdown);
  * - Using Webpack Dev Server
 */
 if (!isProduction) {
-  import WebpackDevServer from 'webpack-dev-server';
   new WebpackDevServer(webpack(webpackConfig), {
     publicPath: webpackConfig.output.publicPath,
     hot: true,
@@ -116,6 +116,6 @@ if (!isProduction) {
     if (error) {
       console.log(colors.red(error));
     }
-    console.log(colors.magenta('Webpack Dev Server listening at'), colors.cyan('localhost3000'));
+    console.log(colors.magenta('Webpack Dev Server listening at '), colors.cyan('localhost3000'));
   });
 }

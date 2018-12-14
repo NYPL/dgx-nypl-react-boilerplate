@@ -46,6 +46,7 @@ function MainApp(req, res, next) {
         { id: 'New Arrivals', link: 'https://nypl.org/newarrivals' },
         { id: 'Search Beta', link: 'https://nypl.org/searchbeta' },
         { id: 'Blogs Beta', link: 'https://nypl.org/blog/beta' },
+        { id: 'Search Collection Catalog', link: 'https://nypl.org/discovery' },
       ],
     },
   };
