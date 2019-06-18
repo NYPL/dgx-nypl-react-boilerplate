@@ -15,6 +15,6 @@ window.onload = () => {
     console.log('Application rendered Isomorphically.');
 
     alt.bootstrap(state);
-    ReactDOM.render(<App />, container);
+    ReactDOM.hydrate(<App />, container);
   });
 };

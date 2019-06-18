@@ -11,12 +11,12 @@ import alt from './src/app/alt.js';
 
 import appConfig from './appConfig.js';
 import { config as analyticsConfig } from 'dgx-react-ga';
-import webpack from 'webpack';
-import webpackConfig from './webpack.config.js';
+import Webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+import webpackConfig from './webpack.common.js';
 
 import Application from './src/app/components/Application/Application.jsx';
 import apiRoutes from './src/server/ApiRoutes/ApiRoutes.js';
-import WebpackDevServer from 'webpack-dev-server';
 
 const ROOT_PATH = __dirname;
 const INDEX_PATH = path.resolve(ROOT_PATH, 'src/client');
@@ -37,6 +37,17 @@ app.set('view engine', 'ejs');
 app.set('views', VIEWS_PATH);
 
 app.set('port', process.env.PORT || 3001);
+
+// webpack hmr
+const compiler = Webpack(webpackConfig);
+// app.use(
+//   require("webpack-dev-middleware")(compiler, {
+//     noInfo: true,
+//     publicPath: webpackConfig.output.publicPath
+//   })
+// );
+
+// app.use(require("webpack-hot-middleware")(compiler));
 
 app.use(express.static(DIST_PATH));
 // For images
@@ -103,19 +114,32 @@ process.on('SIGINT', gracefulShutdown);
  * - Using Webpack Dev Server
 */
 if (!isProduction) {
-  new WebpackDevServer(webpack(webpackConfig), {
-    publicPath: webpackConfig.output.publicPath,
-    hot: true,
-    stats: false,
-    historyApiFallback: true,
-    headers: {
-      'Access-Control-Allow-Origin': 'http://localhost:3001',
-      'Access-Control-Allow-Headers': 'X-Requested-With',
+  const devServerOptions = Object.assign({}, webpackConfig.devServer, {
+    open: true,
+    stats: {
+      colors: true,
     },
-  }).listen(3000, 'localhost', (error) => {
-    if (error) {
-      console.log(colors.red(error));
-    }
-    console.log(colors.magenta('Webpack Dev Server listening at '), colors.cyan('localhost3000'));
+  });
+  const server = new WebpackDevServer(compiler, devServerOptions);
+
+  server.listen(3000, () => {
+    console.log("Starting server on http://localhost:3000");
   });
 }
+// if (!isProduction) {
+//   new WebpackDevServer(Webpack(webpackConfig), {
+//     publicPath: webpackConfig.output.publicPath,
+//     hot: true,
+//     stats: false,
+//     historyApiFallback: true,
+//     headers: {
+//       'Access-Control-Allow-Origin': 'http://localhost:3001',
+//       'Access-Control-Allow-Headers': 'X-Requested-With',
+//     },
+//   }).listen(3000, 'localhost', (error) => {
+//     if (error) {
+//       console.log(colors.red(error));
+//     }
+//     console.log(colors.magenta('Webpack Dev Server listening at '), colors.cyan('localhost:3000'));
+//   });
+// }

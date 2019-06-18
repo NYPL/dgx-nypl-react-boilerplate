@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader';
 import React from 'react';
 
 import { Header, navConfig } from '@nypl/dgx-header-component';
@@ -26,10 +27,10 @@ class App extends React.Component {
 
     return (
       <div className="app-wrapper">
-        <Header
+        {/* <Header
           skipNav={{ target: 'mainContent' }}
           navData={navConfig.current}
-        />
+        /> */}
 
         <div id="mainContent">
           {
@@ -53,10 +54,10 @@ class App extends React.Component {
           </ul>
         </div>
 
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }
 }
 
-export default App;
+export default hot(module)(App);
