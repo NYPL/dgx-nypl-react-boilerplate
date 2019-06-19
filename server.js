@@ -11,9 +11,6 @@ import alt from './src/app/alt.js';
 
 import appConfig from './appConfig.js';
 import { config as analyticsConfig } from 'dgx-react-ga';
-import Webpack from 'webpack';
-import WebpackDevServer from 'webpack-dev-server';
-import webpackConfig from './webpack.common.js';
 
 import Application from './src/app/components/Application/Application.jsx';
 import apiRoutes from './src/server/ApiRoutes/ApiRoutes.js';
@@ -22,7 +19,6 @@ const ROOT_PATH = __dirname;
 const INDEX_PATH = path.resolve(ROOT_PATH, 'src/client');
 const DIST_PATH = path.resolve(ROOT_PATH, 'dist');
 const VIEWS_PATH = path.resolve(ROOT_PATH, 'src/views');
-const WEBPACK_DEV_PORT = appConfig.webpackDevServerPort || 3000;
 const isProduction = process.env.NODE_ENV === 'production';
 const app = express();
 
@@ -37,17 +33,6 @@ app.set('view engine', 'ejs');
 app.set('views', VIEWS_PATH);
 
 app.set('port', process.env.PORT || 3001);
-
-// webpack hmr
-const compiler = Webpack(webpackConfig);
-// app.use(
-//   require("webpack-dev-middleware")(compiler, {
-//     noInfo: true,
-//     publicPath: webpackConfig.output.publicPath
-//   })
-// );
-
-// app.use(require("webpack-hot-middleware")(compiler));
 
 app.use(express.static(DIST_PATH));
 // For images
@@ -70,76 +55,25 @@ app.get('/', (req, res) => {
     appTitle: appConfig.appTitle,
     favicon: appConfig.favIconPath,
     gaCode: analyticsConfig.google.code(isProduction),
-    webpackPort: WEBPACK_DEV_PORT,
-    appEnv: process.env.APP_ENV,
     apiUrl: res.locals.data.completeApiUrl,
     isProduction,
   });
 });
 
-const server = app.listen(app.get('port'), (error) => {
+app.listen(app.get('port'), (error) => {
   if (error) {
     console.log(colors.red(error));
   }
 
   console.log(colors.yellow.underline(appConfig.appName));
+  // Display that dev mode is running
+  if (!isProduction) {
+    console.log(
+      colors.green('Running in development mode with hot module loader')
+    );
+  }
   console.log(
     colors.green('Express server is listening at'),
     colors.cyan(`localhost: ${app.get('port')}`)
   );
 });
-
-// This function is called when you want the server to die gracefully
-// i.e. wait for existing connections
-const gracefulShutdown = () => {
-  console.log('Received kill signal, shutting down gracefully.');
-  server.close(() => {
-    console.log('Closed out remaining connections.');
-    process.exit(0);
-  });
-  // if after
-  setTimeout(() => {
-    console.error('Could not close connections in time, forcefully shutting down');
-    process.exit();
-  }, 1000);
-};
-// listen for TERM signal .e.g. kill
-process.on('SIGTERM', gracefulShutdown);
-// listen for INT signal e.g. Ctrl-C
-process.on('SIGINT', gracefulShutdown);
-
-
-/* Development Environment Configuration
- * -------------------------------------
- * - Using Webpack Dev Server
-*/
-if (!isProduction) {
-  const devServerOptions = Object.assign({}, webpackConfig.devServer, {
-    open: true,
-    stats: {
-      colors: true,
-    },
-  });
-  const server = new WebpackDevServer(compiler, devServerOptions);
-
-  server.listen(3000, () => {
-    console.log("Starting server on http://localhost:3000");
-  });
-}
-// if (!isProduction) {
-//   new WebpackDevServer(Webpack(webpackConfig), {
-//     publicPath: webpackConfig.output.publicPath,
-//     hot: true,
-//     stats: false,
-//     historyApiFallback: true,
-//     headers: {
-//       'Access-Control-Allow-Origin': 'http://localhost:3001',
-//       'Access-Control-Allow-Headers': 'X-Requested-With',
-//     },
-//   }).listen(3000, 'localhost', (error) => {
-//     if (error) {
-//       console.log(colors.red(error));
-//     }
-//     console.log(colors.magenta('Webpack Dev Server listening at '), colors.cyan('localhost:3000'));
-//   });
-// }

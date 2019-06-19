@@ -1,8 +1,13 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
 
-import { Header, navConfig } from '@nypl/dgx-header-component';
-import Footer from '@nypl/dgx-react-footer';
+/**
+ * TODO:
+ * Currently, the NYPL Header and Footer are not using React 16
+ * and using them in the project breaks the app.
+ */
+// import { Header, navConfig } from '@nypl/dgx-header-component';
+// import Footer from '@nypl/dgx-react-footer';
 
 import Store from '../../stores/Store.js';
 

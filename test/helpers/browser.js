@@ -1,20 +1,38 @@
 require('babel-register')();
+import { JSDOM } from 'jsdom';
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 
-var jsdom = require('jsdom').jsdom;
+// Set up Enzyme to work with React 16.
+configure({ adapter: new Adapter() });
 
-var exposedProperties = ['window', 'navigator', 'document'];
+// Set up the DOM and global variables for tests.
+// Point the url to localhost for localstorage.
+const jsdom = new JSDOM(
+  "<!doctype html><html><body></body></html>",
+  { url: "http://localhost" }
+);
+const { window } = jsdom;
 
-global.document = jsdom('');
-global.window = document.defaultView;
-Object.keys(document.defaultView).forEach((property) => {
-    if (typeof global[property] === 'undefined') {
-        exposedProperties.push(property);
-        global[property] = document.defaultView[property];
-    }
+global["document"] = window.document;
+global["window"] = window;
+
+Object.keys(window).forEach((property) => {
+  if (typeof global[property] === 'undefined') {
+    global[property] = window[property];
+  }
 });
 
-global.navigator = {
-    userAgent: 'node.js'
-};
+Object.keys(window).forEach((key) => {
+  if (!(key in global)) {
+    global[key] = window[key];
+  }
+});
 
-documentRef = document;
+// Ignore imported stylesheets.
+let noop = () => {};
+require.extensions[".scss"] = noop;
+
+global.navigator = {
+  userAgent: 'node.js'
+};

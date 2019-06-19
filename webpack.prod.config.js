@@ -1,24 +1,21 @@
 const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const sassPaths = require('@nypl/design-toolkit').includePaths
   .map(sassPath => sassPath).join('&');
 
-  // {
-  //   loader: 'sass-loader',
-  //   options: {
-  //     sourceMap: true,
-  //     includePaths: sassPaths,
-  //   },
-  // },
+const common = require('./webpack.common');
 
-const config = merge(common, {
+const prod = merge(common, {
   mode: "production",
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'styles.css'
     }),
   ],
+  optimization: {
+    minimizer: [new UglifyJsPlugin()],
+  },
   module: {
     rules: [
       {
@@ -26,11 +23,17 @@ const config = merge(common, {
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
-          "sass-loader"
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              includePaths: [sassPaths],
+            },
+          },
         ]
       },
     ],
   },
 });
 
-module.exports = config;
+module.exports = prod;

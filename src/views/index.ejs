@@ -37,15 +37,18 @@
       ga('create', '<%- gaCode %>', 'auto');
       ga('send', 'pageview');
     </script>
-
   </head>
+
   <body>
     <div id="app"><%- application %></div>
   </body>
 
 <% if (isProduction) { %>
+  <!-- Minified JS -->
   <script async src="/bundle.js"></script>
 <% } else { %>
+  <!-- When running in development mode, the bundled Javascript and
+    CSS are bundled together in the webpack dev server route -->
   <script src="http://localhost:3000/bundle.js"></script>
 <% } %>
 

@@ -4,11 +4,10 @@
   "description": "Isomorphic React boilerplate",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
-    "start:dev": "node index && webpack-dev-server --hot --config webpack.common.js",
-    "dist": "NODE_ENV=production webpack -p --progress --display-modules --config webpack.prod.config",
-    "postinstall": "npm run dist",
-    "test": "mocha --compilers js:babel-core/register",
+    "start": "npm run dist && NODE_ENV=production node index",
+    "start:dev": "webpack-dev-server --hot --config webpack.dev.config.js | node index",
+    "dist": "webpack -p --progress --config webpack.prod.config.js",
+    "test": "mocha test/helpers/browser.js --compilers js:babel-core/register test/*.test.js",
     "test-file": "node_modules/.bin/mocha -w test/helpers/browser.js",
     "test-with-coverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test/helpers/browser.js test/*.test.js",
     "coverage": "BABEL_ENV=test node_modules/.bin/nyc --require mocha npm test",
@@ -53,9 +52,7 @@
     "sinon": "7.3.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.4",
-    "webpack-dev-middleware": "^3.7.0",
     "webpack-dev-server": "^3.7.2",
-    "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "4.2.1"
   },
   "dependencies": {
