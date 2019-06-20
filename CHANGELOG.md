@@ -1,6 +1,6 @@
 ## CHANGE LOG
 
-### v0.2.0
+### v0.3.0
 > Updating to Webpack 4 and React 16.
 
 ### v0.2.0

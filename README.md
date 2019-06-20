@@ -8,6 +8,7 @@ The goods:
 * Flux - [Alt](http://alt.js.org/) and [Iso](https://github.com/goatslacker/iso)
 * Webpack-dev-server with react-hot-loader
 * NYPL Header and Footer npm modules
+_NOTE_: This app is currently running on React 16. The NYPL Header and Footer are not on React 16 at the moment so they have been temporarily excluded. 
 
 ### Usage
 Clone the repo and run `npm install`.
