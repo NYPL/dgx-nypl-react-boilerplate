@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Iso from 'iso';
 
 import alt from '../app/alt.js';
-import Iso from 'iso';
 
 import './styles/main.scss';
 
@@ -15,6 +15,6 @@ window.onload = () => {
     console.log('Application rendered Isomorphically.');
 
     alt.bootstrap(state);
-    ReactDOM.render(<App />, container);
+    ReactDOM.hydrate(<App />, container);
   });
 };
